@@ -11,6 +11,7 @@
     "kahoot.js-updated-fixed": "^1.0.0",
     "got": "^11.8.5",
     "ws": "^8.14.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "random-useragent": "^0.9.9"
   }
 }
