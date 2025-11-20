@@ -6,49 +6,53 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-let client = null;
-
-// Home page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
-// Handle form submission
 app.post("/join", async (req, res) => {
   const gamePin = req.body.pin;
   const nickname = req.body.nick;
+  const botCount = Math.min(Number(req.body.count || 1), 100); // max 5
 
   if (!gamePin || !nickname) {
     return res.send("Missing PIN or nickname.");
   }
 
-  client = new Kahoot();
+  res.send(`Starting ${botCount} educational bots… See console.`);
 
-  console.log("Joining Kahoot...");
-
-  client.join(Number(gamePin), nickname).catch(error => {
-    console.error("Join failed:", error.description);
-    res.send("Failed to join: " + error.description);
-  });
-
-  client.on("Joined", () => {
-    console.log("Joined successfully!");
-  });
-
-  client.on("QuestionStart", question => {
-    question.answer(0); // Always answer "first choice"
-    console.log("Answered a question");
-  });
-
-  client.on("QuizEnd", () => {
-    console.log("Quiz ended");
-  });
-
-  res.send("Attempting to join game… Check server console.");
+  for (let i = 0; i < botCount; i++) {
+    createBot(gamePin, `${nickname}_${i + 1}`, i + 1);
+  }
 });
 
-// Start server
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Web interface running at http://localhost:${PORT}`);
+function createBot(pin, nickname, id) {
+  const client = new Kahoot();
+
+  console.log(`[Bot ${id}] Joining as "${nickname}"…`);
+
+  client.join(Number(pin), nickname)
+    .then(() => {
+      console.log(`[Bot ${id}] Joined successfully!`);
+
+      client.on("QuestionStart", question => {
+        console.log(`[Bot ${id}] Received question, answering 0`);
+        try {
+          question.answer(0);
+        } catch {
+          console.log(`[Bot ${id}] Could not answer question.`);
+        }
+      });
+
+      client.on("QuizEnd", () => {
+        console.log(`[Bot ${id}] Quiz ended.`);
+      });
+    })
+    .catch(error => {
+      console.log(`[Bot ${id}] Join failed: ${error.description}`);
+    });
+}
+
+app.listen(3000, () => {
+  console.log("Server running at http://localhost:3000");
 });
