@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Kahoot Bot Panel</title>
+  <style>
+    body {
+      background: #f0f0f0;
+      font-family: Arial;
+      padding: 40px;
+      text-align: center;
+    }
+    form {
+      background: white;
+      display: inline-block;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    input {
+      padding: 10px;
+      margin: 10px;
+      width: 200px;
+    }
+    button {
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kahoot Bot Control Panel</h1>
+  <form action="/join" method="POST">
+    <input type="text" name="pin" placeholder="Game PIN"><br>
+    <input type="text" name="John Wick" placeholder="Bot Nickname"><br>
+    <button type="submit">Join Game</button>
+  </form>
+</body>
+</html>
