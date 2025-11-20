@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const Kahoot = require("kahoot.js-updated");
+const Kahoot = require("kahoot.js-updated-fixed");
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
