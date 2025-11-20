@@ -1,0 +1,16 @@
+{
+  "name": "kahoot-botter",
+  "version": "1.0.0",
+  "description": "Kahoot bot server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "kahoot.js-updated-fixed": "^1.0.0",
+    "got": "^11.8.5",
+    "ws": "^8.14.1",
+    "uuid": "^9.0.0"
+  }
+}
